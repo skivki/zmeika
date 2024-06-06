@@ -25,12 +25,72 @@
             background-color: red;
             position: absolute;
         }
+
+
+
+        .mobile-control-button-up {
+            grid-template-columns: 1fr 1fr 1fr;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            gap: 10px;
+            margin-top: 70px;
+            border-radius: 5px;
+            padding: 5px;
+            position: relative;  /* Added position: relative */
+            right: -160px;  /* Moves right 5 pixels */
+        }
+        .mobile-control-button-down {
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            gap: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            padding: 5px;
+            position: relative;  /* Added position: relative */
+            right: -160px;  /* Moves right 5 pixels */
+        }
+        .mobile-control-button-left-right {
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            gap: 10px;
+            margin-top: 5px;
+            
+            margin-right: 40px;  /* Added margin-right for extra spacing */
+            border-radius: 5px;
+            padding: 5px;
+            position: relative;  /* Added position: relative */
+            right: -112px;  /* Moves right 5 pixels */
+        }
+        .control-button {
+            gap: 10px;
+            border-radius: 5px;
+            padding: 5px;
+            position: relative;  /* Added position: relative */
+            right: -210px;  /* Moves right 5 pixels */
+            
+        }
     </style>
 </head>
 <body>
     <div id="game-board"></div>
-    <button onclick="togglePause()">Пауза</button>
-    <button onclick="restartGame()">Перезапуск</button>
+    <div class="mobile-controls">
+        <button class="mobile-control-button-up" onclick="moveUp()">&#8593;</button>
+        <button class="control-button" onclick="togglePause()">Пауза</button>
+        <button class="control-button" onclick="restartGame()">Перезапуск</button> 
+    <div>
+        <button class="mobile-control-button-left-right" onclick="moveLeft()">&#8592;</button>
+        <button class="mobile-control-button-left-right" onclick="moveRight()">&#8594;</button>
+    <div>    
+        <button class="mobile-control-button-down" onclick="moveDown()">&#8595;</button>
+    
+      
+    
+    
+</body>
+    
     <script>
         const gameBoard = document.getElementById('game-board');
         const blockSize = 20;
@@ -116,31 +176,47 @@
             gameInterval = setInterval(gameLoop, snakeSpeed);
         }
 
+        function moveUp() {
+            if (!isPaused && dy !== 1) {
+                dx = 0;
+                dy = -1;
+            }
+        }
+
+        function moveDown() {
+            if (!isPaused && dy !== -1) {
+                dx = 0;
+                dy = 1;
+            }
+        }
+
+        function moveLeft() {
+            if (!isPaused && dx !== 1) {
+                dx = -1;
+                dy = 0;
+            }
+        }
+
+        function moveRight() {
+            if (!isPaused && dx !== -1) {
+                dx = 1;
+                dy = 0;
+            }
+        }
+
         document.addEventListener('keydown', event => {
             switch (event.key) {
                 case 'ArrowUp':
-                    if (!isPaused && dy !== 1) {
-                        dx = 0;
-                        dy = -1;
-                    }
+                    moveUp();
                     break;
                 case 'ArrowDown':
-                    if (!isPaused && dy !== -1) {
-                        dx = 0;
-                        dy = 1;
-                    }
+                    moveDown();
                     break;
                 case 'ArrowLeft':
-                    if (!isPaused && dx !== 1) {
-                        dx = -1;
-                        dy = 0;
-                    }
+                    moveLeft();
                     break;
                 case 'ArrowRight':
-                    if (!isPaused && dx !== -1) {
-                        dx = 1;
-                        dy = 0;
-                    }
+                    moveRight();
                     break;
             }
         });
